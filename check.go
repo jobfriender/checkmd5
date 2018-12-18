@@ -4,24 +4,21 @@ import (
 	"crypto/md5"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 )
 
 func main() {
-	
-	f, err := os.Open("file.txt")
+
+	data, err := ioutil.ReadFile(os.Args[1])
 	
 	if err != nil {
 		log.Fatal(err)
 	}
 	
-	defer f.Close()
-
 	h := md5.New()
-	if _, err := io.Copy(h, f); err != nil {
-		log.Fatal(err)
-	}
+	io.WriteString(h, string(data))
 
 	fmt.Printf("%x", h.Sum(nil))
 	fmt.Printf("\n\r")
